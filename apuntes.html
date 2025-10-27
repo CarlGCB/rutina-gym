@@ -145,23 +145,6 @@
             text-align: center
         }
 
-
-        .volver {
-            background: #ff0044;
-            border: none;
-            color: #fff;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Oswald', sans-serif;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .volver:hover {
-            background: #ff8800;
-        }
-        
         .del-btn {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -179,6 +162,29 @@
         .del-btn:hover {
             background: rgba(255, 0, 68, 0.06)
         }
+
+        .ejercicio-title {
+            color: #ff8800;
+            font-family: 'Oswald', sans-serif;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .volver {
+            background: #ff0044;
+            border: none;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+            margin-bottom: 1.5rem;
+            align-self: flex-start;
+        }
+
+        .volver:hover {
+            background: #ff8800;
+        }
     </style>
 </head>
 
@@ -186,6 +192,7 @@
     <div class="container">
         <button class="volver" onclick="history.back()">⬅ Volver</button>
         <h1 style="font-family:Oswald, sans-serif;letter-spacing:1px">Apuntes</h1>
+        <div id="ejercicioTitle" class="ejercicio-title"></div>
         <img id="bigImage" class="big-img" src="" alt="Imagen grande">
         
         <form id="optionsForm" class="form-inline" role="form" aria-label="Formulario de selección"
@@ -257,11 +264,34 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ========== RESTA DEL CÓDIGO ==========
+        // ========== CONFIGURACIÓN POR EJERCICIO ==========
         function getQueryParam(name) {
             const params = new URLSearchParams(location.search);
             return params.get(name);
         }
+
+        // Obtener ID del ejercicio desde URL
+        function getEjercicioId() {
+            return getQueryParam('ejercicio') || 'ejercicio_general';
+        }
+
+        // Nombres de ejercicios para mostrar
+        const nombresEjercicios = {
+            'press_plano_mancuernas': 'Press Plano Mancuernas',
+            'press_inclinado': 'Press Inclinado',
+            'aperturas_inclinadas': 'Aperturas Inclinadas',
+            'press_declinado': 'Press Declinado',
+            'cruces_polea': 'Cruces en Polea',
+            'pull_over': 'Pull Over',
+            'press_frances': 'Press Francés',
+            'jalon_cuerda': 'Jalón con Cuerda'
+        };
+
+        const EJERCICIO_ID = getEjercicioId();
+        const EJERCICIO_NOMBRE = nombresEjercicios[EJERCICIO_ID] || EJERCICIO_ID;
+
+        // Mostrar nombre del ejercicio
+        document.getElementById('ejercicioTitle').textContent = EJERCICIO_NOMBRE;
 
         const defaultImg = 'https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944';
         const mainSrc = getQueryParam('img') ? decodeURIComponent(getQueryParam('img')) : defaultImg;
@@ -269,7 +299,7 @@
         const bigImage = document.getElementById('bigImage');
         bigImage.src = mainSrc;
 
-        // ========== GESTIÓN CON FIREBASE ==========
+        // ========== GESTIÓN CON FIREBASE - POR EJERCICIO ==========
         function getUserId() {
             let userId = localStorage.getItem('user_id');
             if (!userId) {
@@ -282,25 +312,25 @@
 
         const USER_ID = getUserId();
 
-        // Cargar datos desde Firebase
+        // Cargar datos desde Firebase - POR EJERCICIO
         async function loadEntries() {
             try {
-                console.log('Cargando datos de Firebase...');
-                const snapshot = await db.ref('apuntes/' + USER_ID).once('value');
+                console.log('Cargando datos para ejercicio:', EJERCICIO_ID);
+                const snapshot = await db.ref('apuntes/' + USER_ID + '/' + EJERCICIO_ID).once('value');
                 
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    console.log('Datos encontrados en Firebase:', data);
+                    console.log('Datos encontrados:', data);
                     return data.entries || [];
                 } else {
-                    console.log('No hay datos en Firebase, creando nodo vacío...');
-                    await db.ref('apuntes/' + USER_ID).set({ entries: [] });
+                    console.log('No hay datos, creando nodo vacío...');
+                    await db.ref('apuntes/' + USER_ID + '/' + EJERCICIO_ID).set({ entries: [] });
                     return [];
                 }
             } catch (error) {
-                console.error('Error cargando datos de Firebase:', error);
+                console.error('Error cargando datos:', error);
                 try {
-                    const localData = localStorage.getItem('apuntes_backup');
+                    const localData = localStorage.getItem('apuntes_backup_' + EJERCICIO_ID);
                     return localData ? JSON.parse(localData) : [];
                 } catch (e) {
                     return [];
@@ -308,16 +338,17 @@
             }
         }
 
-        // Guardar datos en Firebase
+        // Guardar datos en Firebase - POR EJERCICIO
         async function saveEntries(entries) {
             try {
-                console.log('Guardando en Firebase:', entries);
-                await db.ref('apuntes/' + USER_ID).set({ entries });
-                localStorage.setItem('apuntes_backup', JSON.stringify(entries));
-                console.log('Datos guardados correctamente en Firebase');
+                console.log('Guardando para ejercicio:', EJERCICIO_ID);
+                await db.ref('apuntes/' + USER_ID + '/' + EJERCICIO_ID).set({ entries });
+                
+                localStorage.setItem('apuntes_backup_' + EJERCICIO_ID, JSON.stringify(entries));
+                console.log('Datos guardados correctamente');
             } catch (error) {
-                console.error('Error guardando en Firebase:', error);
-                localStorage.setItem('apuntes_backup', JSON.stringify(entries));
+                console.error('Error guardando:', error);
+                localStorage.setItem('apuntes_backup_' + EJERCICIO_ID, JSON.stringify(entries));
             }
         }
 
@@ -380,7 +411,6 @@
             await renderTable();
         }
 
-        // guardar la selección actual
         document.getElementById('saveBtn').addEventListener('click', async () => {
             const seriesSel = document.getElementById('seriesSelect');
             const repsSel = document.getElementById('option2');
@@ -400,7 +430,6 @@
             document.getElementById('saveBtn').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 150 });
         });
 
-        // función genérica para añadir opciones a un select desde un prompt
         function attachAddButton(buttonId, selectId, promptText) {
             const btn = document.getElementById(buttonId);
             const select = document.getElementById(selectId);
@@ -433,9 +462,7 @@
         attachAddButton('addOption2Btn', 'option2', 'Introduce nueva opción de Repeticiones (ej: 14):');
         attachAddButton('addOption3Btn', 'option3', 'Introduce nuevo Peso (ej: 20):');
 
-        // render inicial
         renderTable();
     </script>
 </body>
 </html>
-
