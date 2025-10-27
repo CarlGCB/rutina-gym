@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Apuntes</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+
     <style>
         :root {
             background: #121212;
@@ -39,7 +44,6 @@
             padding: 0.5rem
         }
 
-        /* reemplazado: formulario horizontal en lugar de miniaturas */
         .form-inline {
             display: flex;
             gap: 0.75rem;
@@ -104,7 +108,6 @@
             opacity: 0.9
         }
 
-        /* tabla de guardados */
         .saved-wrap {
             margin-top: 1.25rem;
             width: 100%;
@@ -167,7 +170,7 @@
         <button class="volver" onclick="history.back()">⬅ Volver</button>
         <h1 style="font-family:Oswald, sans-serif;letter-spacing:1px">Apuntes</h1>
         <img id="bigImage" class="big-img" src="" alt="Imagen grande">
-        <!-- formulario horizontal con tres casillas desplegables -->
+        
         <form id="optionsForm" class="form-inline" role="form" aria-label="Formulario de selección"
             onsubmit="event.preventDefault()">
             <label for="seriesSelect" class="sr-only">Series</label>
@@ -198,11 +201,10 @@
                 <option value="2">10</option>
                 <option value="3">15</option>
             </select>
-            <!-- botón guardar (✔) -->
+            
             <button type="button" id="saveBtn" class="save-btn" aria-label="Guardar selección">✔</button>
         </form>
 
-        <!-- zona donde se muestran las selecciones guardadas -->
         <div class="saved-wrap" aria-live="polite">
             <table id="savedTable" class="saved" aria-label="Selecciones guardadas">
                 <thead>
@@ -223,7 +225,22 @@
     <footer>Hecho por Carlos 💥</footer>
 
     <script>
-        // obtiene query param 'img'
+        // ========== CONFIGURACIÓN FIREBASE ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyAi9mRo1r8z_aibkX4YaqIueXjmUXNgvKs",
+            authDomain: "rutina-gym-76964.firebaseapp.com",
+            databaseURL: "https://rutina-gym-76964-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "rutina-gym-76964",
+            storageBucket: "rutina-gym-76964.firebasestorage.app",
+            messagingSenderId: "684811073671",
+            appId: "1:684811073671:web:5f1454c20825a090e3e022"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ========== RESTA DEL CÓDIGO ==========
         function getQueryParam(name) {
             const params = new URLSearchParams(location.search);
             return params.get(name);
@@ -233,15 +250,12 @@
         const mainSrc = getQueryParam('img') ? decodeURIComponent(getQueryParam('img')) : defaultImg;
 
         const bigImage = document.getElementById('bigImage');
-
-        // inicializa imagen grande (el formulario no cambia la imagen)
         bigImage.src = mainSrc;
 
-        // gestión de entradas guardadas (localStorage) - VERSIÓN POR USUARIO
+        // ========== GESTIÓN CON FIREBASE ==========
         function getUserId() {
             let userId = localStorage.getItem('user_id');
             if (!userId) {
-                // Generar ID único: user_timestamp_random
                 userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                 localStorage.setItem('user_id', userId);
                 console.log('Nuevo usuario creado:', userId);
@@ -249,35 +263,65 @@
             return userId;
         }
 
-        // Cada usuario tiene su propia clave
         const USER_ID = getUserId();
-        const STORAGE_KEY = `apuntes_entries_${USER_ID}`;
 
-        function loadEntries() {
+        // Cargar datos desde Firebase
+        async function loadEntries() {
             try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                return raw ? JSON.parse(raw) : [];
-            } catch (e) {
-                return [];
+                console.log('Cargando datos de Firebase...');
+                const snapshot = await db.ref('apuntes/' + USER_ID).once('value');
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    console.log('Datos encontrados en Firebase:', data);
+                    return data.entries || [];
+                } else {
+                    console.log('No hay datos en Firebase, creando nodo vacío...');
+                    await db.ref('apuntes/' + USER_ID).set({ entries: [] });
+                    return [];
+                }
+            } catch (error) {
+                console.error('Error cargando datos de Firebase:', error);
+                try {
+                    const localData = localStorage.getItem('apuntes_backup');
+                    return localData ? JSON.parse(localData) : [];
+                } catch (e) {
+                    return [];
+                }
             }
         }
 
-        function saveEntries(entries) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+        // Guardar datos en Firebase
+        async function saveEntries(entries) {
+            try {
+                console.log('Guardando en Firebase:', entries);
+                await db.ref('apuntes/' + USER_ID).set({ entries });
+                localStorage.setItem('apuntes_backup', JSON.stringify(entries));
+                console.log('Datos guardados correctamente en Firebase');
+            } catch (error) {
+                console.error('Error guardando en Firebase:', error);
+                localStorage.setItem('apuntes_backup', JSON.stringify(entries));
+            }
         }
 
-        function renderTable() {
+        async function renderTable() {
             const tbody = document.querySelector('#savedTable tbody');
             const emptyMsg = document.getElementById('emptyMsg');
-            const entries = loadEntries();
+            
+            tbody.innerHTML = '<tr><td colspan="5">Cargando...</td></tr>';
+            
+            const entries = await loadEntries();
+            
             tbody.innerHTML = '';
             if (!entries.length) {
                 document.getElementById('savedTable').style.display = 'none';
                 emptyMsg.style.display = 'block';
                 return;
             }
+            
             document.getElementById('savedTable').style.display = '';
             emptyMsg.style.display = 'none';
+            
             entries.forEach((e, idx) => {
                 const tr = document.createElement('tr');
                 const tdS = document.createElement('td');
@@ -288,11 +332,12 @@
                 tdP.textContent = e.peso || '-';
                 const tdT = document.createElement('td');
                 tdT.textContent = new Date(e.t).toLocaleString();
+                
                 tr.appendChild(tdS);
                 tr.appendChild(tdR);
                 tr.appendChild(tdP);
                 tr.appendChild(tdT);
-                // celda eliminar
+                
                 const tdDel = document.createElement('td');
                 const delBtn = document.createElement('button');
                 delBtn.type = 'button';
@@ -300,26 +345,26 @@
                 delBtn.setAttribute('aria-label', 'Borrar entrada');
                 delBtn.title = 'Borrar';
                 delBtn.innerText = '🗑';
-                // eliminar directamente sin pedir confirmación
                 delBtn.addEventListener('click', () => {
                     deleteEntry(idx);
                 });
                 tdDel.appendChild(delBtn);
                 tr.appendChild(tdDel);
+                
                 tbody.appendChild(tr);
             });
         }
 
-        function deleteEntry(index) {
-            const entries = loadEntries();
+        async function deleteEntry(index) {
+            const entries = await loadEntries();
             if (index < 0 || index >= entries.length) return;
             entries.splice(index, 1);
-            saveEntries(entries);
-            renderTable();
+            await saveEntries(entries);
+            await renderTable();
         }
 
         // guardar la selección actual
-        document.getElementById('saveBtn').addEventListener('click', () => {
+        document.getElementById('saveBtn').addEventListener('click', async () => {
             const seriesSel = document.getElementById('seriesSelect');
             const repsSel = document.getElementById('option2');
             const pesoSel = document.getElementById('option3');
@@ -329,16 +374,14 @@
                 peso: pesoSel.options[pesoSel.selectedIndex]?.text || '',
                 t: Date.now()
             };
-            const entries = loadEntries();
+            
+            const entries = await loadEntries();
             entries.push(entry);
-            saveEntries(entries);
-            renderTable();
-            // feedback visual mínimo
+            await saveEntries(entries);
+            await renderTable();
+            
             document.getElementById('saveBtn').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 150 });
         });
-
-        // render inicial
-        renderTable();
 
         // función genérica para añadir opciones a un select desde un prompt
         function attachAddButton(buttonId, selectId, promptText) {
@@ -350,13 +393,11 @@
                 if (!input) return;
                 const label = input.trim();
                 if (!label) return;
-                // comprobar duplicados por texto (case-insensitive)
                 const existing = Array.from(select.options).find(opt => opt.text.toLowerCase() === label.toLowerCase());
                 if (existing) {
                     existing.selected = true;
                     return;
                 }
-                // crear un value seguro y único
                 let base = label.replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
                 let candidate = base || ('opt' + Date.now());
                 let i = 1;
@@ -371,21 +412,12 @@
             });
         }
 
-        // asociar para Series, Repeticiones y Peso
         attachAddButton('addSeriesBtn', 'seriesSelect', 'Introduce nueva opción de Series (ej: 5º Serie):');
         attachAddButton('addOption2Btn', 'option2', 'Introduce nueva opción de Repeticiones (ej: 14):');
         attachAddButton('addOption3Btn', 'option3', 'Introduce nuevo Peso (ej: 20):');
 
-        // (opcional) ejemplo: escuchar cambios en selects
-        document.getElementById('optionsForm').addEventListener('change', e => {
-            // solo para mostrar selección en consola; no modifica la imagen grande
-            // console.log('Seleccionado:', {
-            //   series: document.getElementById('seriesSelect').value,
-            //   option2: document.getElementById('option2').value,
-            //   option3: document.getElementById('option3').value
-            // });
-        });
+        // render inicial
+        renderTable();
     </script>
 </body>
-
 </html>
