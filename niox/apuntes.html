@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Apuntes</title>
+    <style>
+        :root {
+            background: #121212;
+            color: #fff;
+            font-family: Roboto, sans-serif
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2rem;
+            gap: 1.5rem
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center
+        }
+
+        .big-img {
+            width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            background: #fff;
+            padding: 0.5rem
+        }
+
+        /* reemplazado: formulario horizontal en lugar de miniaturas */
+        .form-inline {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            flex-wrap: wrap
+        }
+
+        .form-inline select {
+            appearance: none;
+            border-radius: 8px;
+            padding: .45rem .7rem;
+            background: #1e1e1e;
+            color: #fff;
+            border: 1px solid #333;
+            min-width: 140px;
+            cursor: pointer
+        }
+
+        .form-inline select:focus {
+            outline: 2px solid rgba(255, 136, 0, 0.25)
+        }
+
+        .add-btn {
+            background: #ff0044;
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem
+        }
+
+        .add-btn:hover {
+            background: #ff8800;
+            color: #121212
+        }
+
+        .save-btn {
+            background: #28a745;
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-left: 6px
+        }
+
+        .save-btn:hover {
+            opacity: 0.9
+        }
+
+        /* tabla de guardados */
+        .saved-wrap {
+            margin-top: 1.25rem;
+            width: 100%;
+            overflow: auto
+        }
+
+        table.saved {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a1a;
+            color: #fff;
+            border-radius: 8px;
+            overflow: hidden
+        }
+
+        table.saved thead {
+            background: #111;
+            padding: 0.5rem
+        }
+
+        table.saved th,
+        table.saved td {
+            padding: .6rem .75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: .95rem
+        }
+
+        table.saved tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02)
+        }
+
+        .empty-msg {
+            color: #aaa;
+            padding: .6rem;
+            text-align: center
+        }
+
+        .del-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #ff6666;
+            width: 36px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem
+        }
+
+        .del-btn:hover {
+            background: rgba(255, 0, 68, 0.06)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="volver" onclick="history.back()">⬅ Volver</button>
+        <h1 style="font-family:Oswald, sans-serif;letter-spacing:1px">Apuntes</h1>
+        <img id="bigImage" class="big-img" src="" alt="Imagen grande">
+        <!-- formulario horizontal con tres casillas desplegables -->
+        <form id="optionsForm" class="form-inline" role="form" aria-label="Formulario de selección"
+            onsubmit="event.preventDefault()">
+            <label for="seriesSelect" class="sr-only">Series</label>
+            <button type="button" id="addSeriesBtn" class="add-btn" aria-label="Añadir serie">+</button>
+            <select id="seriesSelect" name="series" aria-label="Series">
+                <option value="">Nº Series</option>
+                <option value="1">1º Serie</option>
+                <option value="2">2º Serie</option>
+                <option value="3">3º Serie</option>
+                <option value="4">4º Serie</option>
+            </select>
+
+            <label for="option2" class="sr-only">Repeticiones</label>
+            <button type="button" id="addOption2Btn" class="add-btn" aria-label="Añadir repeticiones">+</button>
+            <select id="option2" name="option2" aria-label="Opción 2">
+                <option value="">Selecciona Repeticiones</option>
+                <option value="A">12</option>
+                <option value="B">10</option>
+                <option value="C">8</option>
+                <option value="D">6</option>
+            </select>
+
+            <label for="option3" class="sr-only">Peso</label>
+            <button type="button" id="addOption3Btn" class="add-btn" aria-label="Añadir peso">+</button>
+            <select id="option3" name="option3" aria-label="Opción 3">
+                <option value="">Selecciona Peso</option>
+                <option value="1">5</option>
+                <option value="2">10</option>
+                <option value="3">15</option>
+            </select>
+            <!-- botón guardar (✔) -->
+            <button type="button" id="saveBtn" class="save-btn" aria-label="Guardar selección">✔</button>
+        </form>
+
+        <!-- zona donde se muestran las selecciones guardadas -->
+        <div class="saved-wrap" aria-live="polite">
+            <table id="savedTable" class="saved" aria-label="Selecciones guardadas">
+                <thead>
+                    <tr>
+                        <th>Series</th>
+                        <th>Repeticiones</th>
+                        <th>Peso</th>
+                        <th>Fecha</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div id="emptyMsg" class="empty-msg" style="display:none">No hay selecciones guardadas</div>
+        </div>
+    </div>
+
+    <footer>Hecho por Carlos 💥</footer>
+
+    <script>
+        // obtiene query param 'img'
+        function getQueryParam(name) {
+            const params = new URLSearchParams(location.search);
+            return params.get(name);
+        }
+
+        const defaultImg = 'https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944';
+        const mainSrc = getQueryParam('img') ? decodeURIComponent(getQueryParam('img')) : defaultImg;
+
+        const bigImage = document.getElementById('bigImage');
+
+        // inicializa imagen grande (el formulario no cambia la imagen)
+        bigImage.src = mainSrc;
+        // gestión de entradas guardadas (localStorage)
+        const STORAGE_KEY = 'apuntes_entries_v1';
+
+        function loadEntries() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveEntries(entries) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+        }
+
+        function renderTable() {
+            const tbody = document.querySelector('#savedTable tbody');
+            const emptyMsg = document.getElementById('emptyMsg');
+            const entries = loadEntries();
+            tbody.innerHTML = '';
+            if (!entries.length) {
+                document.getElementById('savedTable').style.display = 'none';
+                emptyMsg.style.display = 'block';
+                return;
+            }
+            document.getElementById('savedTable').style.display = '';
+            emptyMsg.style.display = 'none';
+            entries.forEach((e, idx) => {
+                const tr = document.createElement('tr');
+                const tdS = document.createElement('td');
+                tdS.textContent = e.series || '-';
+                const tdR = document.createElement('td');
+                tdR.textContent = e.reps || '-';
+                const tdP = document.createElement('td');
+                tdP.textContent = e.peso || '-';
+                const tdT = document.createElement('td');
+                tdT.textContent = new Date(e.t).toLocaleString();
+                tr.appendChild(tdS);
+                tr.appendChild(tdR);
+                tr.appendChild(tdP);
+                tr.appendChild(tdT);
+                // celda eliminar
+                const tdDel = document.createElement('td');
+                const delBtn = document.createElement('button');
+                delBtn.type = 'button';
+                delBtn.className = 'del-btn';
+                delBtn.setAttribute('aria-label', 'Borrar entrada');
+                delBtn.title = 'Borrar';
+                delBtn.innerText = '🗑';
+                // eliminar directamente sin pedir confirmación
+                delBtn.addEventListener('click', () => {
+                    deleteEntry(idx);
+                });
+                tdDel.appendChild(delBtn);
+                tr.appendChild(tdDel);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteEntry(index) {
+            const entries = loadEntries();
+            if (index < 0 || index >= entries.length) return;
+            entries.splice(index, 1);
+            saveEntries(entries);
+            renderTable();
+        }
+
+        // guardar la selección actual
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const seriesSel = document.getElementById('seriesSelect');
+            const repsSel = document.getElementById('option2');
+            const pesoSel = document.getElementById('option3');
+            const entry = {
+                series: seriesSel.options[seriesSel.selectedIndex]?.text || '',
+                reps: repsSel.options[repsSel.selectedIndex]?.text || '',
+                peso: pesoSel.options[pesoSel.selectedIndex]?.text || '',
+                t: Date.now()
+            };
+            const entries = loadEntries();
+            entries.push(entry);
+            saveEntries(entries);
+            renderTable();
+            // feedback visual mínimo
+            document.getElementById('saveBtn').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 150 });
+        });
+
+        // render inicial
+        renderTable();
+
+        // función genérica para añadir opciones a un select desde un prompt
+        function attachAddButton(buttonId, selectId, promptText) {
+            const btn = document.getElementById(buttonId);
+            const select = document.getElementById(selectId);
+            if (!btn || !select) return;
+            btn.addEventListener('click', () => {
+                const input = prompt(promptText);
+                if (!input) return;
+                const label = input.trim();
+                if (!label) return;
+                // comprobar duplicados por texto (case-insensitive)
+                const existing = Array.from(select.options).find(opt => opt.text.toLowerCase() === label.toLowerCase());
+                if (existing) {
+                    existing.selected = true;
+                    return;
+                }
+                // crear un value seguro y único
+                let base = label.replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
+                let candidate = base || ('opt' + Date.now());
+                let i = 1;
+                while (Array.from(select.options).some(o => o.value === candidate)) {
+                    candidate = base + '_' + (i++);
+                }
+                const opt = document.createElement('option');
+                opt.value = candidate;
+                opt.text = label;
+                select.appendChild(opt);
+                opt.selected = true;
+            });
+        }
+
+        // asociar para Series, Repeticiones y Peso
+        attachAddButton('addSeriesBtn', 'seriesSelect', 'Introduce nueva opción de Series (ej: 5º Serie):');
+        attachAddButton('addOption2Btn', 'option2', 'Introduce nueva opción de Repeticiones (ej: 14):');
+        attachAddButton('addOption3Btn', 'option3', 'Introduce nuevo Peso (ej: 20):');
+
+        // (opcional) ejemplo: escuchar cambios en selects
+        document.getElementById('optionsForm').addEventListener('change', e => {
+            // solo para mostrar selección en consola; no modifica la imagen grande
+            // console.log('Seleccionado:', {
+            //   series: document.getElementById('seriesSelect').value,
+            //   option2: document.getElementById('option2').value,
+            //   option3: document.getElementById('option3').value
+            // });
+        });
+    </script>
+</body>
+
+</html>
