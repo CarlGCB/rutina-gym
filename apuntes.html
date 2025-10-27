@@ -236,8 +236,22 @@
 
         // inicializa imagen grande (el formulario no cambia la imagen)
         bigImage.src = mainSrc;
-        // gestión de entradas guardadas (localStorage)
-        const STORAGE_KEY = 'apuntes_entries_v1';
+
+        // gestión de entradas guardadas (localStorage) - VERSIÓN POR USUARIO
+        function getUserId() {
+            let userId = localStorage.getItem('user_id');
+            if (!userId) {
+                // Generar ID único: user_timestamp_random
+                userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('user_id', userId);
+                console.log('Nuevo usuario creado:', userId);
+            }
+            return userId;
+        }
+
+        // Cada usuario tiene su propia clave
+        const USER_ID = getUserId();
+        const STORAGE_KEY = `apuntes_entries_${USER_ID}`;
 
         function loadEntries() {
             try {
