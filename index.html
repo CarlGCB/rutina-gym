@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -161,15 +162,22 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Lightbox / Modal de imagen */
     .lightbox-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0, 0, 0, 0.85);
       display: none;
       align-items: center;
       justify-content: center;
@@ -195,12 +203,12 @@
       max-width: 100%;
       max-height: 85vh;
       border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
       background: #fff;
     }
 
     .lightbox-close {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       border: none;
       padding: 0.4rem 0.6rem;
       border-radius: 6px;
@@ -250,54 +258,76 @@
   <section id="detalle1" class="detalle">
     <button class="volver" onclick="volver()">⬅ Volver</button>
     <h2>DÍA 1 :: PECHO :: TRÍCEPS</h2>
-
+    <h3>Pecho</h3>
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944" alt="Press Inclinado en Multipower o Máquina">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944"
+        alt="Press Inclinado en Multipower o Máquina">
       <p>Press Inclinado en Multipower o Máquina — 12-10-8-6</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944', 'press_inclinado')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944', 'press_inclinado')">Apuntes</button>
     </div>
 
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bench-Press_13090f67-ccfc-4f3a-9bab-e75d753fa9fa_600x600.png?v=1612137970" alt="Press Plano Mancuernas">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bench-Press_13090f67-ccfc-4f3a-9bab-e75d753fa9fa_600x600.png?v=1612137970"
+        alt="Press Plano Mancuernas">
       <p>Press Plano Mancuernas — 12-10-8-6</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bench-Press_13090f67-ccfc-4f3a-9bab-e75d753fa9fa_600x600.png?v=1612137970', 'press_plano_mancuernas')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bench-Press_13090f67-ccfc-4f3a-9bab-e75d753fa9fa_600x600.png?v=1612137970', 'press_plano_mancuernas')">Apuntes</button>
     </div>
 
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Fly_44d253c3-da60-45b2-b0ba-88a3bb79da09_600x600.png?v=1612137870" alt="Aperturas Inclinadas">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Fly_44d253c3-da60-45b2-b0ba-88a3bb79da09_600x600.png?v=1612137870"
+        alt="Aperturas Inclinadas">
       <p>Aperturas Inclinadas — 4 x 12</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Fly_44d253c3-da60-45b2-b0ba-88a3bb79da09_600x600.png?v=1612137870', 'aperturas_inclinadas')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Fly_44d253c3-da60-45b2-b0ba-88a3bb79da09_600x600.png?v=1612137870', 'aperturas_inclinadas')">Apuntes</button>
     </div>
 
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Parallel-Dip-Bar_600x600.png?v=1619977962" alt="Press Declinado ó Fondos con Lastre">
+      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Parallel-Dip-Bar_600x600.png?v=1619977962"
+        alt="Press Declinado ó Fondos con Lastre">
       <p>Press Declinado ó Fondos con Lastre — 12-10-8-6</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Parallel-Dip-Bar_600x600.png?v=1619977962', 'press_declinado')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Parallel-Dip-Bar_600x600.png?v=1619977962', 'press_declinado')">Apuntes</button>
     </div>
 
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Crossover_09c90616-2777-47ed-927e-d5987edfce09_600x600.png?v=1612138036" alt="Cruces en Polea Alta + Flexiones Manos Juntas">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Crossover_09c90616-2777-47ed-927e-d5987edfce09_600x600.png?v=1612138036"
+        alt="Cruces en Polea Alta + Flexiones Manos Juntas">
       <p>Cruces en Polea Alta + Flexiones Manos Juntas — 4 x 15</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Crossover_09c90616-2777-47ed-927e-d5987edfce09_600x600.png?v=1612138036', 'cruces_polea')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Crossover_09c90616-2777-47ed-927e-d5987edfce09_600x600.png?v=1612138036', 'cruces_polea')">Apuntes</button>
     </div>
 
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283" alt="Pull Over">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283"
+        alt="Pull Over">
       <p>Pull Over — 4 x 12</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283', 'pull_over')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283', 'pull_over')">Apuntes</button>
     </div>
 
     <h3>Tríceps</h3>
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-French-Press_600x600.png?v=1619978038" alt="Press Francés Banco Inclinado">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-French-Press_600x600.png?v=1619978038"
+        alt="Press Francés Banco Inclinado">
       <p>Press Francés Banco Inclinado — 12-10-8-6</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-French-Press_600x600.png?v=1619978038', 'press_frances')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-French-Press_600x600.png?v=1619978038', 'press_frances')">Apuntes</button>
     </div>
 
     <div class="ejercicio">
-      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Rope-Pushdown_600x600.png?v=1612136916" alt="Jalón con Cuerda">
+      <img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Rope-Pushdown_600x600.png?v=1612136916"
+        alt="Jalón con Cuerda">
       <p>Jalón con Cuerda — 4 x 12</p>
-      <button class="btn-apuntes" onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Rope-Pushdown_600x600.png?v=1612136916', 'jalon_cuerda')">Apuntes</button>
+      <button class="btn-apuntes"
+        onclick="abrirApuntes('https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Rope-Pushdown_600x600.png?v=1612136916', 'jalon_cuerda')">Apuntes</button>
     </div>
   </section>
 
@@ -305,50 +335,129 @@
   <section id="detalle2" class="detalle">
     <button class="volver" onclick="volver()">⬅ Volver</button>
     <h2>DÍA 2 :: CUÁDRICEPS :: GEMELO</h2>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Extensiones — 4 x 12</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Sentadilla — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Prensa Inclinada — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Zancadas — 4 x 10</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Extensiones (Bombeo) — 3 x 12</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Gemelo Sentado + De Pie + En Prensa — 4 x 20</p></div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Extensiones — 4 x 12</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Sentadilla — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Prensa Inclinada — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Zancadas — 4 x 10</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Extensiones (Bombeo) — 3 x 12</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Gemelo Sentado + De Pie + En Prensa — 4 x 20</p>
+    </div>
   </section>
 
   <section id="detalle3" class="detalle">
     <button class="volver" onclick="volver()">⬅ Volver</button>
     <h2>DÍA 3 :: ESPALDA :: BÍCEPS</h2>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Reverse-Grip-Pulldown_10c5341f-30fd-4126-8fd7-2fa05c079889_600x600.png?v=1612138255" alt=""><p>Jalón al Pecho — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Row_4beb1d94-bac9-4538-9578-2d9cf93ef008_600x600.png?v=1612138201" alt=""><p>Remo con Barra — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/T-Bar-Rows_600x600.png?v=1612092112" alt=""><p>Remo en Barra T — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Deadlift_600x600.png?v=1619977112" alt=""><p>Peso Muerto — 4 x 10</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Pull-Up_600x600.png?v=1619977612" alt=""><p>Dominadas — 3 x fallo</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283" alt=""><p>Tirón en Polea Alta — 4 x 15</p></div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Reverse-Grip-Pulldown_10c5341f-30fd-4126-8fd7-2fa05c079889_600x600.png?v=1612138255"
+        alt="">
+      <p>Jalón al Pecho — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Row_4beb1d94-bac9-4538-9578-2d9cf93ef008_600x600.png?v=1612138201"
+        alt="">
+      <p>Remo con Barra — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/T-Bar-Rows_600x600.png?v=1612092112" alt="">
+      <p>Remo en Barra T — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Deadlift_600x600.png?v=1619977112" alt="">
+      <p>Peso Muerto — 4 x 10</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Pull-Up_600x600.png?v=1619977612" alt="">
+      <p>Dominadas — 3 x fallo</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283"
+        alt="">
+      <p>Tirón en Polea Alta — 4 x 15</p>
+    </div>
     <h3>Bíceps</h3>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Curl_f38580d5-412e-4082-b453-5d319afa94fd_600x600.png?v=1612137128" alt=""><p>Curl con Barra — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Curl_7debf468-cd34-49bc-8933-7f4b087e6cca_600x600.png?v=1612137309" alt=""><p>Curl Mancuerna Banco Inclinado — 12-10-8-6</p></div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Curl_f38580d5-412e-4082-b453-5d319afa94fd_600x600.png?v=1612137128"
+        alt="">
+      <p>Curl con Barra — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Curl_7debf468-cd34-49bc-8933-7f4b087e6cca_600x600.png?v=1612137309"
+        alt="">
+      <p>Curl Mancuerna Banco Inclinado — 12-10-8-6</p>
+    </div>
   </section>
 
   <section id="detalle4" class="detalle">
     <button class="volver" onclick="volver()">⬅ Volver</button>
     <h2>DÍA 4 :: FEMORAL :: GEMELO</h2>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Femoral Tumbado — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Peso Muerto Mancuernas — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Sentadilla Sumo — 4 x 12</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Femoral de Pie — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Gemelo Sentado + De Pie + En Prensa — 4 x 20</p></div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Femoral Tumbado — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Peso Muerto Mancuernas — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Sentadilla Sumo — 4 x 12</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Femoral de Pie — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Gemelo Sentado + De Pie + En Prensa — 4 x 20</p>
+    </div>
   </section>
 
   <section id="detalle5" class="detalle">
     <button class="volver" onclick="volver()">⬅ Volver</button>
     <h2>DÍA 5 :: HOMBROS :: TRAPECIO</h2>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Arm-Cable-Front-Raise_600x600.png?v=1619977928" alt=""><p>Elevaciones Frontales — 3 x 12</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Shoulder-Press_da0aa742-620a-45f7-9277-78137d38ff28_600x600.png?v=1612138495" alt=""><p>Press Militar Mancuernas — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-One-Arm-Lateral-Raise_3e57189f-cdf3-46ee-9a89-6ca054eae56a_600x600.png?v=1612138775" alt=""><p>Elevaciones Laterales — 4 x 12</p></div>
-    <div class="ejercicio"><img src="https://www.deportrainer.com/img/cms/Post%20de%20blog/ejercicios_hombro/press-militar-barra-Multipower.jpg" alt=""><p>Press Militar Multipower — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://scontent.fvlc7-1.fna.fbcdn.net/v/t1.6435-9/172994307_2887581501523227_8422916954707072974_n.jpg" alt=""><p>Elevaciones Frontales con Disco — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://static.strengthlevel.com/images/exercises/dumbbell-reverse-fly/dumbbell-reverse-fly-800.jpg" alt=""><p>Pájaros + Remo al Cuello — 12-10-8-6</p></div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Arm-Cable-Front-Raise_600x600.png?v=1619977928"
+        alt="">
+      <p>Elevaciones Frontales — 3 x 12</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Shoulder-Press_da0aa742-620a-45f7-9277-78137d38ff28_600x600.png?v=1612138495"
+        alt="">
+      <p>Press Militar Mancuernas — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-One-Arm-Lateral-Raise_3e57189f-cdf3-46ee-9a89-6ca054eae56a_600x600.png?v=1612138775"
+        alt="">
+      <p>Elevaciones Laterales — 4 x 12</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://www.deportrainer.com/img/cms/Post%20de%20blog/ejercicios_hombro/press-militar-barra-Multipower.jpg"
+        alt="">
+      <p>Press Militar Multipower — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://scontent.fvlc7-1.fna.fbcdn.net/v/t1.6435-9/172994307_2887581501523227_8422916954707072974_n.jpg"
+        alt="">
+      <p>Elevaciones Frontales con Disco — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img
+        src="https://static.strengthlevel.com/images/exercises/dumbbell-reverse-fly/dumbbell-reverse-fly-800.jpg"
+        alt="">
+      <p>Pájaros + Remo al Cuello — 12-10-8-6</p>
+    </div>
     <h3>Trapecio</h3>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Remo al Mentón con Cuerda — 12-10-8-6</p></div>
-    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt=""><p>Paseíto del Granjero + Encogimientos — 4 x 30s + 4 x fallo</p></div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Remo al Mentón con Cuerda — 12-10-8-6</p>
+    </div>
+    <div class="ejercicio"><img src="https://via.placeholder.com/100" alt="">
+      <p>Paseíto del Granjero + Encogimientos — 4 x 30s + 4 x fallo</p>
+    </div>
   </section>
 
   <footer>
@@ -382,7 +491,7 @@
     }
 
     // Lightbox
-    (function() {
+    (function () {
       const lightbox = document.getElementById('lightbox');
       const lbImage = lightbox.querySelector('img');
       const lbCaption = lightbox.querySelector('.lightbox-caption');
@@ -406,7 +515,7 @@
         document.documentElement.style.overflow = '';
       }
 
-      document.addEventListener('click', function(e) {
+      document.addEventListener('click', function (e) {
         const img = e.target.closest('.ejercicio img');
         if (img) openLightbox(img.src, img.alt || '');
       });
@@ -417,4 +526,5 @@
     })();
   </script>
 </body>
+
 </html>
